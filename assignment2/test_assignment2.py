@@ -1,6 +1,6 @@
 import pytest
 
-from assignment2 import matrix_chain_order
+from assignment2 import matrix_chain_order, dynamic_knapsack_0_1
 
 
 @pytest.mark.parametrize(
@@ -47,3 +47,33 @@ def test_matrix_chain_order(p, m, s):
     for i in range(len(p) - 1):
         assert m_res[i] == m[i]
         assert s_res[i] == s[i]
+
+
+@pytest.mark.parametrize(
+    "W, items, result",
+    [
+        (1, [[1, 2], [3, 4], [5, 6], [7, 8]], 2),
+        (3, [[1, 2], [3, 4], [5, 6], [7, 8]], 4),
+        (4, [[1, 2], [3, 4], [5, 6], [7, 8]], 6),
+        (6, [[1, 2], [3, 4], [5, 6], [7, 8]], 8),
+        (8, [[1, 2], [3, 4], [5, 6], [7, 8]], 10),
+    ],
+)
+def test_dynamic_knapsack_0_1(W, items, result):
+    knapsack = dynamic_knapsack_0_1(W, items)
+    assert knapsack == result
+
+
+@pytest.mark.parametrize(
+    "W, items, result",
+    [
+        (1, [[1, 2], [3, 4], [5, 6], [7, 8]], 2),
+        (3, [[1, 2], [3, 4], [5, 6], [7, 8]], 4),
+        (4, [[1, 2], [3, 4], [5, 6], [7, 8]], 6),
+        (6, [[1, 2], [3, 4], [5, 6], [7, 8]], 8),
+        (8, [[1, 2], [3, 4], [5, 6], [7, 8]], 10),
+    ],
+)
+def test_greedy_factional_knapsack_0_1(W, items, result):
+    knapsack = dynamic_knapsack_0_1(W, items)
+    assert knapsack == result
