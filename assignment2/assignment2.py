@@ -5,6 +5,25 @@ from numpy import infty
 def matrix_chain_order(p: list[int]) -> tuple[list[list[int]], list[list[int]]]:
     """Dynamic matrix chain order.
 
+    With the following matrix chain order: [30, 35, 15, 5, 10, 20, 25],
+    the m and s tables are:
+    [
+        [0, 15750, 7875, 9375, 11875, 15125],
+        [0, 0, 2625, 4375, 7125, 10500],
+        [0, 0, 0, 750, 2500, 5375],
+        [0, 0, 0, 0, 1000, 3500],
+        [0, 0, 0, 0, 0, 5000],
+        [0, 0, 0, 0, 0, 0],
+    ],
+    [
+        [0, 1, 1, 3, 3, 3],
+        [0, 0, 2, 3, 3, 3],
+        [0, 0, 0, 3, 3, 3],
+        [0, 0, 0, 0, 4, 5],
+        [0, 0, 0, 0, 0, 5],
+        [0, 0, 0, 0, 0, 0],
+    ]
+
     Args:
         p: Dimensions of the matrix.
 
@@ -33,18 +52,6 @@ def dynamic_knapsack_0_1(W: int, items: list[(int, int)]) -> int:
     """Dynamic 0-1 knapsack algorithm.
 
     Following the pseudocode from: https://en.wikipedia.org/wiki/Knapsack_problem#Dynamic_programming_in-advance_algorithm
-
-    Ex:
-    * W = 7
-    * items = [(2, 3), (3, 4), (4, 5), (5, 6)]
-
-    | n | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    |---|---|---|---|---|---|---|---|---|
-    | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | []
-    | 1 | 0 | 0 | 3 | 3 | 3 | 3 | 3 | 3 | [(2, 3)]
-    | 2 | 0 | 0 | 3 | 4 | 4 | 7 | 7 | 7 | [(2, 3), (3, 4)]
-    | 3 | 0 | 0 | 3 | 4 | 5 | 7 | 8 | 9 | [(2, 3), (3, 4), (4, 5)]
-    | 4 | 0 | 0 | 3 | 4 | 5 | 7 | 8 | 9 | [(2, 3), (3, 4), (4, 5), (5, 6)]
 
     Args:
         W: Maximum weight.
@@ -90,6 +97,7 @@ def greedy_fractional_knapsack_0_1(W: int, items: list[(int, int)]) -> float:
             break
     return total
 
+
 def greedy_coins(coins: list[int], total: int) -> list[int]:
     sum = 0
     n = 0
@@ -103,8 +111,9 @@ def greedy_coins(coins: list[int], total: int) -> list[int]:
             break
     return result
 
+
 def bottomup_coins(coins: list[int], total: int) -> list[int]:
-    steps = [float('inf')] * (total + 1)
+    steps = [float("inf")] * (total + 1)
     steps[0] = 0
     coin_used = [-1] * (total + 1)
     # For each value i up to total
@@ -118,3 +127,9 @@ def bottomup_coins(coins: list[int], total: int) -> list[int]:
         result.append(coin_used[total])
         total -= coin_used[total]
     return result
+
+
+if __name__ == "__main__":
+    coins = [1, 5, 7, 10]
+    print(greedy_coins(coins, 14))
+    print(bottomup_coins(coins, 14))
