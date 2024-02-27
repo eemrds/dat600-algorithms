@@ -99,6 +99,15 @@ def greedy_fractional_knapsack_0_1(W: int, items: list[(int, int)]) -> float:
 
 
 def greedy_coins(coins: list[int], total: int) -> list[int]:
+    """Greedy coin algorithm.
+
+    Args:
+        coins: List of coins to choose from.
+        total: Value that combination of coins should reach.
+
+    Returns:
+        Ordered list of the coins added.
+    """
     sum = 0
     n = 0
     result = []
@@ -113,6 +122,15 @@ def greedy_coins(coins: list[int], total: int) -> list[int]:
 
 
 def bottomup_coins(coins: list[int], total: int) -> list[int]:
+    """Dynamic bottom-up coin algorithm.
+
+    Args:
+        coins: List of coins to choose from.
+        total: Value that combination of coins should reach.
+
+    Returns:
+        Ordered list of the coins added.
+    """
     steps = [float("inf")] * (total + 1)
     steps[0] = 0
     coin_used = [-1] * (total + 1)
