@@ -89,3 +89,32 @@ def greedy_fractional_knapsack_0_1(W: int, items: list[(int, int)]) -> float:
             total += (W / w) * v
             break
     return total
+
+def greedy_coins(coins: list[int], total: int) -> list[int]:
+    sum = 0
+    n = 0
+    result = []
+    for coin in reversed(coins):
+        while sum + coin <= total:
+            sum += coin
+            n += 1
+            result.append(coin)
+        if sum == total:
+            break
+    return result
+
+def bottomup_coins(coins: list[int], total: int) -> list[int]:
+    steps = [float('inf')] * (total + 1)
+    steps[0] = 0
+    coin_used = [-1] * (total + 1)
+    # For each value i up to total
+    for i in range(1, total + 1):
+        for coin in coins:
+            if i >= coin and steps[i - coin] + 1 < steps[i]:
+                steps[i] = steps[i - coin] + 1
+                coin_used[i] = coin
+    result = []
+    while total > 0:
+        result.append(coin_used[total])
+        total -= coin_used[total]
+    return result
