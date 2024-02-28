@@ -5,25 +5,7 @@ from numpy import infty
 def matrix_chain_order(p: list[int]) -> tuple[list[list[int]], list[list[int]]]:
     """Dynamic matrix chain order.
 
-    With the following matrix chain order: [30, 35, 15, 5, 10, 20, 25],
-    the m and s tables are:
-    [
-        [0, 15750, 7875, 9375, 11875, 15125],
-        [0, 0, 2625, 4375, 7125, 10500],
-        [0, 0, 0, 750, 2500, 5375],
-        [0, 0, 0, 0, 1000, 3500],
-        [0, 0, 0, 0, 0, 5000],
-        [0, 0, 0, 0, 0, 0],
-    ],
-    [
-        [0, 1, 1, 3, 3, 3],
-        [0, 0, 2, 3, 3, 3],
-        [0, 0, 0, 3, 3, 3],
-        [0, 0, 0, 0, 4, 5],
-        [0, 0, 0, 0, 0, 5],
-        [0, 0, 0, 0, 0, 0],
-    ]
-
+    Following the pseudocode from page 375 of *Introduction to Algorithms*
     Args:
         p: Dimensions of the matrix.
 
