@@ -7,38 +7,60 @@
 
 
 ## Task 1
+### Recursive Matrix Chain Multiplication
 The chain matrix multiplication problem uses a table to store the optimal costs of multiplying a chain of matrices. The optimal cost is the minimum number of scalar multiplications needed to compute the product.
+
+### Dynamic Matrix Chain Multiplication
+*Followed algorithm from *Introduction to Algorithms* and this [video](https://www.youtube.com/watch?v=eKkXU3uu2zk)*
+
+The dynamic programming approach of matrix chain multiplication is to find what the 
+best order of adding parenthesis to a chain of matrices is. The optimal cost is stored
+in one table (m) and the k value that gives the optimal cost is in another (s).
+
 
 For instance:
 Let a matrix chain be:
-| A     | B     | C     | D     | E     |
-|-------|-------|-------|-------|-------|
-| 20x30 | 30x40 | 40x10 | 10x30 | 30x40 |
+| A1  | A2  | A3  | A4  |
+|-----|-----|-----|-----|
+| 2x3 | 3x4 | 4x1 | 1x5 |
 
-1. When computing the optimal cost we start of with an empty table and fill it.
 
-|   |   |   |   |   |
-|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 0 |
-|   | 0 | 0 | 0 | 0 |
-|   |   | 0 | 0 | 0 |
-|   |   |   | 0 | 0 |
-|   |   |   |   | 0 |
+When computing the optimal cost dynamically we start of with an empty table and fill it.
+The rows and columns are the number n of matrices in the chain + 1. The diagonal, row 0 and 
+column 0 are always 0. We want to find the optimal cost which will be stored in the top right.
 
-2. First consider the subchains of length 2. Matrix A and B, B and C, C and D, D and E.
-A*B = 20x30x40 = 24000
-B*C = 30x40x10 = 12000
-C*D = 40x10x30 = 12000
-D*E = 10x30x40 = 12000
 
-|   |       |       |       |       |
-|---|-------|-------|-------|-------|
-| 0 | 24000 | 0     | 0     | 0     |
-|   | 0     | 12000 | 0     | 0     |
-|   |       | 0     | 12000 | 0     |
-|   |       |       | 0     | 12000 |
+| m | 0 | 1 | 2 | 3 | 4 |  | s | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|  |---|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 | 0 |  | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 |   |   |   |  | 1 | 0 | 0 |   |   |   |
+| 2 | 0 |   | 0 |   |   |  | 2 | 0 |   | 0 |   |   |
+| 3 | 0 |   |   | 0 |   |  | 3 | 0 |   |   | 0 |   |
+| 4 | 0 |   |   |   | 0 |  | 4 | 0 |   |   |   | 0 |
 
-3. Then consider the subchains of length 3. Matrix A, B, C and B, C, D and C, D, E.
+1. First consider the subchains of length 2. Matrix A1 and A2, A2 and A3, A3 and A4.
+Here there is no choice of parenthesis, so the optimal cost is just the cost of
+multiplying the two matrices.
+
+A1*A2 = 2x3x4 = 24
+A2*A3 = 3x4x1 = 12
+A3*A4 = 4x1x5 = 20
+
+| m | 0 | 1 | 2  | 3  | 4  |  | s | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|----|----|----|  |---|---|---|---|---|---|
+| 0 | 0 | 0 | 0  | 0  | 0  |  | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 | 24 |    |    |  | 1 | 0 | 0 | 1 |   |   |
+| 2 | 0 |   | 0  | 12 |    |  | 2 | 0 |   | 0 | 2 |   |
+| 3 | 0 |   |    | 0  | 20 |  | 3 | 0 |   |   | 0 | 3 |
+| 4 | 0 |   |    |    | 0  |  | 4 | 0 |   |   |   | 0 |
+
+
+3. Then consider the subchains of length 3. Matrix A, B, C and B, C, D.
+Here we have to consider two different ways of adding parenthesis. For the first
+subchain we have A(BC) and (AB)C for instance. We choose the one that gives the
+lowest cost.
+
+
 A*B*C = 20x30x40 + 30x40x10 = 24000 + 12000 = 36000
 B*C*D = 30x40x10 + 40x10x30 = 12000 + 12000 = 24000
 C*D*E = 40x10x30 + 10x30x40 = 12000 + 12000 = 24000

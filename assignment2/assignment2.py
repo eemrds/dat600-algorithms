@@ -31,20 +31,21 @@ def matrix_chain_order(p: list[int]) -> tuple[list[list[int]], list[list[int]]]:
         m: Auxilary table for storing m[i, j] costs.
         s: Auxilary table for storing the k value that achieved the optimal cost.
     """
-    n = len(p) - 1
+    n = len(p)
     tab = [0 for _ in range(n)]
     m = [tab[:] for _ in range(n)]
     s = [tab[:] for _ in range(n)]
 
-    for l in range(2, n + 1):
-        for i in range(n - l + 1):
-            j = i + l - 1
-            m[i][j] = infty
+    for l in range(1, n - 1):
+        for i in range(1, n - l):
+            j = i + l
+            min_cost = infty
             for k in range(i, j):
-                q = m[i][k] + m[k + 1][j] + p[i] * p[k + 1] * p[j + 1]
-                if q < m[i][j]:
-                    m[i][j] = q
-                    s[i][j] = k + 1
+                q = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j]
+                if q < min_cost:
+                    min_cost = q
+                    s[i][j] = k
+            m[i][j] = min_cost
     return m, s
 
 
